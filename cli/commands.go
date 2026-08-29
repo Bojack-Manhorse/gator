@@ -3,27 +3,27 @@ package cli
 import "fmt"
 
 type Commands struct {
-	commandNames map[string]func(*State, Command) error
+	CommandMap map[string]func(*State, Command) error
 }
 
-func (c *Commands) run(s *State, cmd Command) error {
-	v, exists := c.commandNames[cmd.name]
+func (c *Commands) Run(s *State, cmd Command) error {
+	v, exists := c.CommandMap[cmd.Name]
 
 	if !exists {
-		return fmt.Errorf("Error, command %s does not exist", cmd.name)
+		return fmt.Errorf("Error, command %s does not exist", cmd.Name)
 	}
 
 	return v(s, cmd)
 }
 
-func (c *Commands) register(name string, f func(*State, Command) error) error {
-	_, exist := c.commandNames[name]
+func (c *Commands) Register(name string, f func(*State, Command) error) error {
+	_, exist := c.CommandMap[name]
 
 	if exist {
 		return fmt.Errorf("Error, command %s already exists.", name)
 	}
 
-	c.commandNames[name] = f
+	c.CommandMap[name] = f
 
 	return nil
 }
