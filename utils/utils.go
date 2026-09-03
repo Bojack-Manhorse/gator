@@ -1,8 +1,11 @@
 package utils
 
 import (
+	"context"
 	"encoding/json"
+	"encoding/xml"
 	"io"
+	"net/http"
 	"os"
 )
 
@@ -38,4 +41,34 @@ func DecodeReader[t any](r io.Reader) (t, error) {
 	}
 
 	return outputStruct, nil
+}
+
+func GetBytesFromHTML(url string, userAgent string) ([]byte, error) {
+	ctx := context.Background()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", userAgent)
+
+	res, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	return io.ReadAll(res.Body)
+}
+
+func ParseBytesToXML[xmlSchema any](data []byte) (xmlSchema, error) {
+	var parsedXml xmlSchema
+
+	err := xml.Unmarshal(data, &parsedXml)
+
+	return parsedXml, err
 }

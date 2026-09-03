@@ -21,6 +21,9 @@ var commandMapping = CommandHandlers{
 	"register": cli.Register,
 	"reset":    cli.Reset,
 	"users":    cli.ListUsers,
+	"agg":      cli.Aggregate,
+	"addfeed":  cli.AddFeed,
+	"feeds":    cli.ListFeeds,
 }
 
 func getCurrentConfig() config.Config {
@@ -106,7 +109,6 @@ func runCommand(commandName string, commandArgs []string, state cli.State, comma
 }
 
 func main() {
-
 	storedState := initState()
 	eligibleCommands := initCommands(commandMapping)
 	commandName, commandArguments := parseArgs()
