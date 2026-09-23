@@ -17,13 +17,17 @@ const dbUrl string = "DATABASE_URL/gator?sslmode=disable"
 type CommandHandlers map[string]func(*cli.State, cli.Command) error
 
 var commandMapping = CommandHandlers{
-	"login":    cli.HandlerLogin,
-	"register": cli.Register,
-	"reset":    cli.Reset,
-	"users":    cli.ListUsers,
-	"agg":      cli.Aggregate,
-	"addfeed":  cli.AddFeed,
-	"feeds":    cli.ListFeeds,
+	"login":     cli.HandlerLogin,
+	"register":  cli.Register,
+	"reset":     cli.Reset,
+	"users":     cli.ListUsers,
+	"agg":       cli.Aggregate,
+	"addfeed":   cli.MiddlewareLoggedIn(cli.AddFeed),
+	"feeds":     cli.ListFeeds,
+	"follow":    cli.MiddlewareLoggedIn(cli.FollowFeed),
+	"following": cli.MiddlewareLoggedIn(cli.GetAllFollowsOfUser),
+	"unfollow":  cli.MiddlewareLoggedIn(cli.UnfollowFeed),
+	"browse":    cli.Browse,
 }
 
 func getCurrentConfig() config.Config {
