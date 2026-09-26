@@ -1,16 +1,14 @@
 # RSS Feed manager
 
-This application is a command line tool allows multiple users to subscribe and view RSS feeds.
+This application is a command line tool allows multiple users to subscribe and view RSS feeds. It is the boot.dev project 'gator'.
 
 It is written in Go and uses Postgres for databases.
-
-For some reason boot.dev call this project gator.
 
 ## Installation instructions
 
 This guide assumes installation on a Linux machine.
 
-Golang, Postgres and Goose are requried.
+Golang, Postgres and Goose are required.
 
 ### Clone repo
 
@@ -83,7 +81,7 @@ Once in the postgres terminal, run the following to create the database:
 CREATE DATABASE gator;
 ```
 
-If teh databse was created succesfully, connect to it via:
+If the databse was created succesfully, connect to it via:
 
 ```sql
 \c gator
@@ -103,7 +101,7 @@ To make other steps easier, set this as a variable in your bash terminal session
 db_endpoint="<your-database-endpoint-here>"
 ```
 
-Then perform all up migrations for the database (assuming you are already in the porject repo):
+Then perform all up migrations for the database (assuming you are already in the project repo):
 
 ```bash
 cd sql/schema
@@ -146,15 +144,15 @@ gator <command> <arguments>
 
 The following commands exist:
 
-- login - 1 argument - Logs in as an existing user
-- register - 1 argument - Creates and logs in to a new user
-- reset - 0 arguemnts - Deletes the current user
+- login <name> - 1 argument - Logs in as an existing user
+- register <name> - 1 argument - Creates and logs in to a new user
+- reset - 0 arguments - Deletes the current user
 - users - 0 arguments - Lists all users
-- agg - 1 argument, time interval - Fetches all RSS feeds the user is subscribed to at the time interval (in seconds) given
-- addfeed - 2 argument, feed name, RSS feed url - Adds the given feed to the database (with the given name) and subscribes the user to that feed
-- feeds - 0 arguemnts - Lists all feeds the user is subscribed to
-- follow - 1 argment, feed name - Make the current user follow the given feed
+- agg <time-interval> - 1 argument, time interval - Fetches all RSS feeds the user is subscribed to at the time interval (in seconds) given
+- addfeed <name> <url> - 2 argument, feed name, RSS feed url - Adds the given feed to the database (with the given name) and subscribes the user to that feed
+- feeds - 0 arguments - Lists all feeds the user is subscribed to
+- follow <url> - 1 argument, feed name - Make the current user follow the given feed
 - following - 0 arguments - Lists all feeds the current user is following
-- unfollow - 1 argument, feed name - Makes the user unfollow a feeds
-- browse - 1 arguments, number of posts to list (defaults to 2 if not given) - Lists posts in database
+- unfollow <url> - 1 argument, feed url - Makes the user unfollow a feeds
+- browse [limit] - 1 arguments (optional), number of posts to list (defaults to 2 if not given) - Lists posts in database
 
